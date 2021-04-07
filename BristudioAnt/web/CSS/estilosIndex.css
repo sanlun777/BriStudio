@@ -61,7 +61,7 @@ header nav {
 }
 
 header nav a {
-    background: #494368;
+    background: #2E294E;
     color: #fff;
     text-align: center;
     text-decoration: none;
@@ -95,7 +95,7 @@ header nav a:hover{
 }
 
 .general .contenido {
-    background: #fca17d;
+    background: #EAEAEA;
     grid-column: span 2;
     font-family: 'Comfortaa';
     color: #fff;
@@ -103,7 +103,7 @@ header nav a:hover{
 }
 
 .general .sidebar {
-    background: #494368;
+    background: #2E294E;
     display: flex;
     align-items: center;
     text-align: center;

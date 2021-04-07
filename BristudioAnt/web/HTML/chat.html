@@ -1,124 +1,128 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Chat General</title>
-	<link rel="stylesheet" href="/BristudioAnt/CSS/estilosChat.css" type="text/css" media="all">
-	<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chat General</title>
+        <link rel="stylesheet" href="/BristudioAnt/CSS/estilosChat.css" type="text/css" media="all">
+        <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    </head>
 
-<body>
-	<div class="general">
-
-
-		<header class="cabecera">
-
-			<div class="encabezado">
-				<h2>Chat general de Bristudio</h2>
-			</div>
-
-			<div class="logo">
-				<a href="/BristudioAnt">Bristudio</a>
-			</div>
-
-		</header>
-
-		<main class="contenido">
-
-			<center>
-				<p class="tituloPanel">Chat</p>
-			</center>
-
-			<section class="formulario-login">
-
-				<form action="">
-					<div>
-						<label for="nombre">Nombre</label>
-						<input type="text" id="nombre">
-					</div>
-					<div>
-						<label for="mensaje">Mensaje</label>
-						<textarea id="mensaje" name="msj" onclick="limpia(this)" onblur="verifica(this)" value="Ingrese su Mensaje"></textarea>
-					</div>
-					<button type="button" class="boton" id="btnEnviar">Enviar</button>
-					<time>horita</time>
-				</form>
-
-				<ul id="chatUl">
-
-				</ul>
+    <body>
+        <div class="general">
 
 
-			</section>
+            <header class="cabecera">
 
-		</main>
+                <div class="encabezado">
+                    <h2>Chat general de Bristudio</h2>
+                </div>
 
-	</div>
+                <div class="logo">
+                    <a href="/BristudioAnt">Bristudio</a>
+                </div>
 
-</body>
+            </header>
 
-<!-- The core Firebase JS SDK is always required and must be listed first -->
+            <main class="contenido">
 
-<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+                <center>
+                    <p class="tituloPanel">Chat</p>
+                </center>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-https://firebase.google.com/docs/web/setup#available-libraries -->
+                <section class="formulario-login">
 
-<script>
-	// Your web app's Firebase configuration
-	var firebaseConfig = {
-		apiKey: "AIzaSyDmnpgdMgXpsqaY4ozkN4aWWMDKPzXhYt4",
-		authDomain: "briestudio.firebaseapp.com",
-		projectId: "briestudio",
-		storageBucket: "briestudio.appspot.com",
-		messagingSenderId: "579439898802",
-		appId: "1:579439898802:web:1c9d18dcc2c3212db999ab"
-	};
-	// Initialize Firebase
-	firebase.initializeApp(firebaseConfig);
+                    <form action="">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre">
+                        </div>
+                        <div>
+                            <label for="mensaje">Mensaje</label>
+                            <textarea id="mensaje" name="msj" onclick="limpia(this)" onblur="verifica(this)" value="Ingrese su Mensaje"></textarea>
+                        </div>
+                        <button type="button" class="boton" id="btnEnviar">Enviar</button>
+                        <time>horita</time>
+                    </form>
 
-	var txtNombre = document.getElementById("nombre");
-	var txtMensaje = document.getElementById("mensaje");
-	var btnEnviar = document.getElementById("btnEnviar");
-	var chatUl = document.getElementById("chatUl");
+                    <ul id="chatUl">
 
-	btnEnviar.addEventListener("click", function () {
-		var nombre = txtNombre.value;
-		var mensaje = txtMensaje.value;
-
-		firebase.database().ref('chat').push({
-			name: nombre,
-			message: mensaje
-		});
-	});
-
-	firebase.database().ref('chat')
-		.on('value', function (snapshot) {
-			var html = '';
-			snapshot.forEach(function (e) {
-				var element = e.val();
-				var nombre = element.name;
-				var mensaje = element.message;
-				html += "<li><b>" + nombre + ": </b>" + mensaje + "</li>";
-			});
-			chatUl.innerHTML = html;
-		});
+                    </ul>
 
 
-	function limpia(elemento) {
-		elemento.value = "";
-	}
-	function verifica(elemento) {
-		if (elemento.value == "")
-			elemento.value = "Ingrese su mensaje";
-	}
-</script>
+                </section>
+
+            </main>
+
+            <footer class="footer">
+                <p>Copyright © 2021 - Todos los derechos reservados - <a href="http://www.molesoft.net">Molesoft.net</a>  Hecha por el Equipo de Molesoft</p>
+            </footer>
+
+        </div>
+
+    </body>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+                                                        // Your web app's Firebase configuration
+                                                        var firebaseConfig = {
+                                                            apiKey: "AIzaSyDmnpgdMgXpsqaY4ozkN4aWWMDKPzXhYt4",
+                                                            authDomain: "briestudio.firebaseapp.com",
+                                                            projectId: "briestudio",
+                                                            storageBucket: "briestudio.appspot.com",
+                                                            messagingSenderId: "579439898802",
+                                                            appId: "1:579439898802:web:1c9d18dcc2c3212db999ab"
+                                                        };
+                                                        // Initialize Firebase
+                                                        firebase.initializeApp(firebaseConfig);
+
+                                                        var txtNombre = document.getElementById("nombre");
+                                                        var txtMensaje = document.getElementById("mensaje");
+                                                        var btnEnviar = document.getElementById("btnEnviar");
+                                                        var chatUl = document.getElementById("chatUl");
+
+                                                        btnEnviar.addEventListener("click", function () {
+                                                            var nombre = txtNombre.value;
+                                                            var mensaje = txtMensaje.value;
+
+                                                            firebase.database().ref('chat').push({
+                                                                name: nombre,
+                                                                message: mensaje
+                                                            });
+                                                        });
+
+                                                        firebase.database().ref('chat')
+                                                                .on('value', function (snapshot) {
+                                                                    var html = '';
+                                                                    snapshot.forEach(function (e) {
+                                                                        var element = e.val();
+                                                                        var nombre = element.name;
+                                                                        var mensaje = element.message;
+                                                                        html += "<li><b>" + nombre + ": </b>" + mensaje + "</li>";
+                                                                    });
+                                                                    chatUl.innerHTML = html;
+                                                                });
+
+
+                                                        function limpia(elemento) {
+                                                            elemento.value = "";
+                                                        }
+                                                        function verifica(elemento) {
+                                                            if (elemento.value == "")
+                                                                elemento.value = "Ingrese su mensaje";
+                                                        }
+    </script>
 
 </html>

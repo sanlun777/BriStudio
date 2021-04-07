@@ -103,7 +103,7 @@
 -->
 
         <footer class="footer">
-            <p>Copyright © 2020 - Todos los derechos reservados - <a href="http://www.molesoft.net">Molesoft.net</a>  Hecha por el Equipo de Molesoft</p>
+            <p>Copyright © 2021 - Todos los derechos reservados - <a href="http://www.molesoft.net">Molesoft.net</a>  Hecha por el Equipo de Molesoft</p>
         </footer>
 
     </div>
