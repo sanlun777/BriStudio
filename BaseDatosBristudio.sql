@@ -133,6 +133,15 @@ foreign key(id_usuario_remitente) references usuarios(usuario_id),
 foreign key(id_usuario_destinatario) references usuarios(usuario_id)
 );
 
+create table faqPregunta(
+preg_id int not null primary key auto_increment,
+pregunta nvarchar(255),
+respuesta nvarchar(511),
+id_usuario_pregunta int not null,
+id_usuario_respuesta int,
+foreign key(id_usuario_pregunta) references usuarios(usuario_id),
+foreign key(id_usuario_pregunta) references usuarios(usuario_id));
+
 insert into permisos values (1, 'crea_usuario');
 insert into permisos values (2, 'auditoria');
 insert into permisos values (3, 'crea_cursos');
