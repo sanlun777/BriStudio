@@ -154,7 +154,7 @@ public class Checador {
     }
     boolean checaLength(int i, String analiza){
         boolean correcto = false;
-        if(analiza.length() >= tamanos[i][0] && analiza.length() <= tamanos[i][1]){
+        if((analiza.length() >= tamanos[i][0] && analiza.length() <= tamanos[i][1]) || (tamanos[i][0] == -1)){
             correcto = true;
         }
         if (!correcto) System.out.println("Problema de tamano en" + analiza);

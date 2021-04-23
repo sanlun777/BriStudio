@@ -23,7 +23,8 @@ public class Permisos {
         AUDITORIA,
         CREACURSOS,
         CREACONTENIDO,
-        ADMINISTRADORCURSO
+        ADMINISTRADORCURSO,
+        FAQ
     }
     
     private permiso[] permisos;
@@ -57,6 +58,9 @@ public class Permisos {
             break;
             case("administrador_curso"):
                 permisoEnum = permiso.ADMINISTRADORCURSO;
+            break;
+            case("administrador_faq"):
+                permisoEnum = permiso.FAQ;
             break;
             default:
                 if(isNumeric(permi)){
@@ -105,6 +109,9 @@ public class Permisos {
             case ADMINISTRADORCURSO:
                 permisoStr = "administrador_curso";
             break;
+            case FAQ:
+                permisoStr = "administrador_faq";
+            break;    
         }
         return permisoStr;
     }
@@ -156,6 +163,9 @@ public class Permisos {
                 permisoReq = permiso.AUDITORIA;
             break;
             case AUDITORIA:
+                permisoReq = permiso.AUDITORIA;
+            break;
+            case FAQ:
                 permisoReq = permiso.AUDITORIA;
             break;
         }

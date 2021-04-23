@@ -137,8 +137,8 @@ create table faqPregunta(
 preg_id int not null primary key auto_increment,
 pregunta nvarchar(255),
 respuesta nvarchar(511),
-id_usuario_pregunta int not null,
-id_usuario_respuesta int,
+id_usuario_pregunta decimal(10) not null,
+id_usuario_respuesta decimal(10),
 foreign key(id_usuario_pregunta) references usuarios(usuario_id),
 foreign key(id_usuario_pregunta) references usuarios(usuario_id));
 

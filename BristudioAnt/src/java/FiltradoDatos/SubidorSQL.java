@@ -134,6 +134,29 @@ public class SubidorSQL {
         return sucess;
     }
     
+    public boolean seguroUpdateSQLValidado(Object[] datos,String[] pos,Checador.datosTipo[] tipos,int[][] tamanos,String tabla, int searchField){
+        boolean sucess = true;
+        if(new AntiInjection().safeArray(datos)){
+            System.out.println("pasa antiinjection");
+            if(new Checador().checa(tipos, tamanos, datos)){
+                System.out.println("pasa chequeo");
+                try {
+                    updateSQL(datos,pos,tabla,searchField);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    sucess = false;
+                    ex.printStackTrace();
+                }
+            }
+            else{
+                sucess = false;
+            }
+        }
+        else{
+            sucess = false;
+        }
+        return sucess;
+    }
+    
     public void cerrarConexion() throws SQLException{
         con.close();
     }
@@ -424,6 +447,7 @@ public class SubidorSQL {
         
     }
     
+    
     public boolean permisosCurso(Permisos.permiso permi, String usuario_id, String curso_id) throws SQLException{
         boolean permisos = false;
         AntiInjection checa = new AntiInjection();
@@ -456,6 +480,24 @@ public class SubidorSQL {
             query = query + datoString[j] + "','";
         }
         query = query + datoString[length-1] + "')";
+        System.out.println(query);
+        st.executeUpdate(query);
+    }
+    
+    public void updateSQL(Object[] datos, String[] pos, String tabla, int fieldSearch) throws ClassNotFoundException, SQLException {
+        int length = datos.length;
+        String[] datoString = new String[length];
+        String query = "update " + tabla + " set ";
+        for(int i = 0; i<length;i++){
+            datoString[i] = datos[i].toString();
+        }
+        for(int i = 0; i<length-1;i++){
+            if(i != fieldSearch){
+            query = query + pos[i] + " = '" + datoString[i] + "', ";
+            }
+        }
+        
+        query = query + pos[length-1] + " = '" + datoString[length-1] + "' where " + pos[fieldSearch] + " = '" + datoString[fieldSearch] + "'";
         System.out.println(query);
         st.executeUpdate(query);
     }

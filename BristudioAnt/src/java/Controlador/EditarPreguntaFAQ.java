@@ -23,10 +23,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
+ * @author Santi
  */
-@WebServlet(name = "CreaCurso", urlPatterns = {"/CreaCurso"})
-public class CreaCurso extends HttpServlet {
+@WebServlet(name = "EditarPreguntaFAQ", urlPatterns = {"/EditarPreguntaFAQ"})
+public class EditarPreguntaFAQ extends HttpServlet {
     SubidorSQL subidor = new SubidorSQL();
 
     /**
@@ -46,10 +46,10 @@ public class CreaCurso extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreaCurso</title>");            
+            out.println("<title>Servlet EditarPreguntaFAQ</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreaCurso at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditarPreguntaFAQ at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,69 +78,81 @@ public class CreaCurso extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             HttpSession sesion = request.getSession();
             Permisos permisos = (Permisos)sesion.getAttribute("permisos_usuario");
             String usuarioID = sesion.getAttribute("num_usuario").toString();
-            String[] cursosID = (String[]) sesion.getAttribute("cursos_id");
-            String[] cursosName = (String[]) sesion.getAttribute("cursos_name");
-            Permisos.permiso[] permisosCurso = (Permisos.permiso[])sesion.getAttribute("permisos_curso");
-            if(permisos.exists(Permisos.permiso.CREACURSOS)){
-                String[] params = {"curso"};
-                Boolean[] retrieve = {true};
+            
+            if(permisos.exists(Permisos.permiso.AUDITORIA) || permisos.exists(Permisos.permiso.FAQ)){
+                
+                String[] params = {"pregunta", "respuesta", "preg_id", "id_usuario_pregunta", "id_usuario_respuesta"};
+                Boolean[] retrieve = {true, true, true, false, false};
                 Object[] recupera = new Object[params.length];
-                int[][] tamanos = {{2,30}};
-                Checador.datosTipo[] tipoDatos = {Checador.datosTipo.LETRA};
+                int[][] tamanos = {{0,255},{0,511},{-1,0},{10,10},{10,10}};
+                Checador.datosTipo[] tipoDatos = {Checador.datosTipo.LETRA, Checador.datosTipo.LETRA, Checador.datosTipo.NUMERO, Checador.datosTipo.IGNORE, Checador.datosTipo.IGNORE};
                 for(int i = 0; i<params.length; i++){
                     if(retrieve[i]){
                         Object param = request.getParameter(params[i]);
                         recupera[i] = param;
                     }
                 }
+                boolean cambio = true;
+                boolean[] actualizar = new boolean[2];
+                if(recupera[0].toString().length() != 0){
+                    actualizar[0] = true;
+                }
+                if(recupera[1].toString().length() != 0){
+                    actualizar[1] = true;
+                }
                 
-                
-                System.out.println(Arrays.toString(recupera));
-                System.out.println(Arrays.toString(tamanos));
-                System.out.println(Arrays.toString(tipoDatos));
-                if(subidor.seguroSQLValidado(recupera,params,tipoDatos,tamanos,"curso")){
-                    try {
-                        String cursoID = subidor.busqSeparate("curso","curso_id","curso",recupera[0].toString());
-                        if(permisos.permisoAdd(Permisos.permiso.ADMINISTRADORCURSO,usuarioID,cursoID)){
-                            if(cursosID == null){
-                                cursosID = new String[]{cursoID};
-                                cursosName = new String[]{recupera[0].toString()};
-                                sesion.setAttribute("cursos_id", cursosID);
-                                sesion.setAttribute("cursos_name", cursosName);
-                            }
-                            else{
-                                String[] cursosID2 = new String[cursosID.length+1];
-                                System.arraycopy(cursosID, 0, cursosID2, 0, cursosID.length);
-                                cursosID2[cursosID.length] = cursoID;
-                                sesion.setAttribute("cursos_id", cursosID2);
-                                String[] cursosName2 = new String[cursosName.length+1];
-                                System.arraycopy(cursosName, 0, cursosName2, 0, cursosName.length);
-                                cursosName2[cursosName.length] = recupera[0].toString();
-                                sesion.setAttribute("cursos_name", cursosName2);
-                                response.sendRedirect("/BristudioAnt/");
-                            }
-                            
-                        }
-                        else{
-                            response.sendRedirect("/BristudioAnt/HTML/error.html");
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CreaCurso.class.getName()).log(Level.SEVERE, null, ex);
+                recupera[3] = usuarioID;
+                recupera[4] = usuarioID;
+                String[] paramsStore; /*= new Object[params.length - (actualizar[0] ? 1 : 0) - (actualizar[1] ? 1 : 0)];*/
+                Object[] recuperaStore;
+                int[][] tamanosStore;
+                if(actualizar[0]){
+                    if(!actualizar[1]){
+                        paramsStore = new String[]{params[0], params[2], params[3]};
+                        recuperaStore = new Object[]{recupera[0], recupera[2], recupera[3]};
+                        tamanosStore = new int[][]{tamanos[0], tamanos[2], tamanos[3]};
+                        params = paramsStore;
+                        recupera = recuperaStore;
+                        tamanos = tamanosStore;
                     }
                 }
                 else{
-                    response.sendRedirect("/BristudioAnt/HTML/error.html");
+                    if(actualizar[1]){
+                        paramsStore = new String[]{params[1], params[2], params[4]};
+                        recuperaStore = new Object[]{recupera[1], recupera[2], recupera[4]};
+                        tamanosStore = new int[][]{tamanos[1], tamanos[2], tamanos[4]};
+                        params = paramsStore;
+                        recupera = recuperaStore;
+                        tamanos = tamanosStore;
+                        
+                    }
+                    else cambio = false;
+                }
+                
+                if(cambio){
+                    System.out.println(Arrays.toString(recupera));
+                    System.out.println(Arrays.toString(tamanos));
+                    System.out.println(Arrays.toString(tipoDatos));
+                    if(subidor.seguroUpdateSQLValidado(recupera,params,tipoDatos,tamanos,"faqPregunta",1)){
+                        response.sendRedirect("/BristudioAnt/HTML/faqalum.jsp");
+                    }
+                    else{
+                        response.sendRedirect("/BristudioAnt/HTML/error.html");
+                    }
+                }
+                else{
+                    response.sendRedirect("/BristudioAnt/HTML/faqalum.jsp");
                 }
             }
             else{
                 response.sendRedirect("/BristudioAnt/HTML/error.html");
             }
-        
     }
 
     /**

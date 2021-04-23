@@ -45,6 +45,8 @@
                     else{
                         out.println("<a href='#' class='hueco' font-color:#a4031f></a>");
                         out.println("<a href='HTML/cierraSesion.jsp'>Cerrar sesión</a>");
+                        out.println("<a href='#' class='hueco' font-color:#a4031f></a>");
+                        out.println("<a href='HTML/faqalum.jsp'>FAQ</a>");
                         checar = true;
                         permisosUsuario = (Permisos)sesion.getAttribute("permisos_usuario");
                             if(permisosUsuario.exists(Permisos.permiso.CREAUSUARIO)){
