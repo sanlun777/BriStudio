@@ -1,3 +1,4 @@
 /BristudioAnt/build/
 BristudioAnt/nbproject/private/private.properties
 BristudioAnt/nbproject/private/private.xml
+*.war
