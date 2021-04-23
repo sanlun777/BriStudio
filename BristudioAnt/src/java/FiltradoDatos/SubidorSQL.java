@@ -437,7 +437,7 @@ public class SubidorSQL {
         String[] datoString = new String[length];
         String query = "insert into " + tabla + " values('";
         for(int i = 0; i<length;i++){
-            datoString[i] = datos[i].toString();
+            datoString[i] = datos[i].toString().replace("'","´");
         }
         for(int j = 0; j<length-1; j++){
             query = query + datoString[j] + "','";
@@ -470,7 +470,7 @@ public class SubidorSQL {
         String[] datoString = new String[length];
         String query = "insert into " + tabla + "(";
         for(int i = 0; i<length;i++){
-            datoString[i] = datos[i].toString();
+            datoString[i] = datos[i].toString().replace("'","´");
         }
         for(int i = 0; i<length-1;i++){
             query = query + pos[i] + ",";
@@ -489,7 +489,7 @@ public class SubidorSQL {
         String[] datoString = new String[length];
         String query = "update " + tabla + " set ";
         for(int i = 0; i<length;i++){
-            datoString[i] = datos[i].toString();
+            datoString[i] = datos[i].toString().replace("'","´");
         }
         for(int i = 0; i<length-1;i++){
             if(i != fieldSearch){
