@@ -24,7 +24,11 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "CrearPreguntaFAQ", urlPatterns = {"/CrearPreguntaFAQ"})
 public class CrearPreguntaFAQ extends HttpServlet {
-    SubidorSQL subidor = new SubidorSQL();
+    SubidorSQL subidor;
+
+    public CrearPreguntaFAQ() {
+        this.subidor = new SubidorSQL();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -78,6 +82,7 @@ public class CrearPreguntaFAQ extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession sesion = request.getSession();
         Permisos permisos = (Permisos)sesion.getAttribute("permisos_usuario");
         String usuarioID = sesion.getAttribute("num_usuario").toString();
@@ -103,14 +108,14 @@ public class CrearPreguntaFAQ extends HttpServlet {
             System.out.println(Arrays.toString(tamanos));
             System.out.println(Arrays.toString(tipoDatos));
             if(subidor.seguroSQLValidado(recupera,params,tipoDatos,tamanos,"faqPregunta")){
-                response.sendRedirect("/BristudioAnt/HTML/faqalum.jsp");
+                response.sendRedirect("/HTML/faqalum.jsp");
             }
             else{
-                response.sendRedirect("/BristudioAnt/HTML/error.html");
+                response.sendRedirect("/HTML/error.html");
             }
             }
             else{
-                response.sendRedirect("/BristudioAnt/HTML/error.html");
+                response.sendRedirect("/HTML/error.html");
             }
     }
 

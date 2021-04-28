@@ -169,7 +169,7 @@
             </div>
 
             <div class="logo">
-                <a href="/BristudioAnt/">Bristudio</a>
+                <a href="/">Bristudio</a>
             </div>
 
         </header>
@@ -192,7 +192,7 @@
                         SubidorSQL subidor = new SubidorSQL();
                         if(subidor.permisosCurso(Permisos.permiso.ADMINISTRADORCURSO,numUsuario.toString(),idCurso.toString()) || subidor.permisosCurso(Permisos.permiso.CREACONTENIDO,numUsuario.toString(),idCurso.toString())){
                             out.println("<section class='formulario-login'>");
-                                out.println("<form action = '/BristudioAnt/CreaContenido' method = 'post'>");
+                                out.println("<form action = '/CreadorContenido' method = 'post'>");
                                     out.println("<input type = 'hidden' id='curso_id' name='curso_id' value='" + idCurso.toString() + "'>");
                                     out.println("<input class='campos' type='text' name='titulo_contenido' id='titulo_contenido' placeholder='Titulo del contenido' required>");
                                     out.println("<input class='campos' type='textarea' name='texto_descripcion' id='texto_descripcion' placeholder='Descripcion' title='Describa el contenido aquí'>");

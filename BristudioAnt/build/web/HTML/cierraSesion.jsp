@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="logo">
-                    <a href="/BristudioAnt/">Bristudio</a>
+                    <a href="/">Bristudio</a>
                 </div>
 
             </header>
@@ -57,7 +57,7 @@
 
                     </center>
 
-                    <form action="/BristudioAnt/" method="post">
+                    <form action="/" method="post">
                         <input type="submit" class="boton" value="Regresar">
                     </form>
 

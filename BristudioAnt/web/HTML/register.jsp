@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/BristudioAnt/CSS/estilosRegister.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/CSS/estilosRegister.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
             </div>
 
             <div class="logo">
-                <a href="/BristudioAnt/">Bristudio</a>
+                <a href="/">Bristudio</a>
             </div>
 
         </header>
@@ -51,7 +51,7 @@
 
                                     out.println("<section class='formulario-registro'>");
 
-                                        out.println("<form action = '/BristudioAnt/Registro' method = 'post' enctype='multipart/form-data'>");
+                                        out.println("<form action = '/Registro' method = 'post' enctype='multipart/form-data'>");
                                             out.println("<input class='campos' type='number' name='usuario_id' id='usuario_id' placeholder='inserte ID Usuario' minlength='10' maxlength='10' max='9999999999' required title='Inserte el ID del usuario (Boleta)'>");
                                             out.println("<input class='campos' type='text' name='usuario_nick' id='usuario_nick' placeholder='Nickname' required minlength='2' maxlength='20' title='Escribe el nickname, que se usará para acceder'>");
                                             out.println("<input class='campos' type='text' name='nombre' id='nombre' placeholder='Nombre' required pattern='[a-zA-Záéíóú]+' minlength='2' maxlength='20' title='Escribe un nombre válido, utilizando mayúsculas y minúsculas.'>");

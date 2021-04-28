@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/BristudioAnt/CSS/estilosRegister.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/CSS/estilosRegister.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
             </div>
 
             <div class="logo">
-                <a href="/BristudioAnt/">Bristudio</a>
+                <a href="/">Bristudio</a>
             </div>
 
         </header>
@@ -51,7 +51,7 @@
 
                                     out.println("<section class='formulario-registro'>");
 
-                                        out.println("<form action = '/BristudioAnt/CreaCurso' method = 'post'>");
+                                        out.println("<form action = '/CreadorCurso' method = 'post'>");
                                             out.println("<input class='campos' type='text' name='curso' id='curso' placeholder='Inserte título del curso' minlength='2' maxlength='30' required title='Inserte título del curso'>");
                                             out.println("<input type=submit class='boton' value='Crear curso'>");
                                         out.println("</form>");

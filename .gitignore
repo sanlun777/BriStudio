@@ -2,3 +2,4 @@
 BristudioAnt/nbproject/private/private.properties
 BristudioAnt/nbproject/private/private.xml
 *.war
+/BristudioAnt/dist/

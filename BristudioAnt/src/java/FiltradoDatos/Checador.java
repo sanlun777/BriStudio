@@ -28,6 +28,30 @@ public class Checador {
     int[][] tamanos;
     Object[] datos;
     Object max = 5;
+    
+    static public String[] stringAHtml(String[] convierte){
+        for(int i = 0; i < convierte.length; i++){
+            convierte[i] = stringAHtml(convierte[i]);
+        }
+        return convierte;
+    }
+    
+    static public String stringAHtml(String convierte){
+        String[][] mapa = {{"&","&amp;"},{"<","&lt;"},{">","&gt;"},{"\"","&quot;"},{"'","&#039;"}};
+        StringBuilder b = new StringBuilder(convierte);
+            LinkedList<int[]> mapStr = new LinkedList<>();
+            for(int i = b.length() - 1; i >= 0; i--){
+                for(String[] checa : mapa){
+                    if(b.charAt(i) == checa[0].charAt(0)){
+                        b.deleteCharAt(i);
+                        b.insert(i,checa[1]);
+                        break;
+                    }
+                }
+            }
+        return b.toString();
+    }
+    
     public boolean checa(datosTipo[] tipos,int[][] tamanos ,Object[] datos){
         this.tipos = tipos;
         this.tamanos = tamanos;

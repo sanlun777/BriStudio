@@ -5,6 +5,7 @@
  */
 package Controlador;
 
+import FiltradoDatos.Checador;
 import FiltradoDatos.Permisos;
 import FiltradoDatos.SubidorSQL;
 import java.io.IOException;
@@ -27,7 +28,11 @@ import javax.sql.rowset.CachedRowSet;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet{
-    SubidorSQL subidor = new SubidorSQL();
+    SubidorSQL subidor;
+
+    public Login() {
+        this.subidor = new SubidorSQL();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -81,6 +86,7 @@ public class Login extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response); NO PERMITIR ESTE COMANDO!!!!
+        request.setCharacterEncoding("UTF-8");
         Object usuario = request.getParameter("usuario_nick");
         Object contrasena = request.getParameter("contrasena");
         boolean login = false;
@@ -98,29 +104,29 @@ public class Login extends HttpServlet{
             String[] table = {"permisos","permiso_usuario","usuarios"};
             String[] linker = {"permiso","permisos_id","usuario_id"};
             Permisos permisosSesion = null;
-            String[] cursos = {};
-            String[] cursosNombre = {};
+            //String[] cursos = {};
+            //String[] cursosNombre = {};
             //Permisos.permiso[] permiCursos;
             try {
                 permisosSesion = new Permisos(subidor.CRStoStringArray(subidor.innerJoiner(table,linker,"usuario_nick",usuario.toString()), "permiso"));
                 System.out.println(permisosSesion);
                 //CachedRowSet cursosCRS = subidor.getRow(userID,"usuario_curso","usuario_id");
-                CachedRowSet cursosCRSName = subidor.innerJoinerMultiArg(new String[]{"curso","usuario_curso"},new String[]{"curso","curso_id"},new String[]{"usuario_curso"},new String[]{"usuario_id"},new String[]{userID});
+                //CachedRowSet cursosCRSName = subidor.innerJoinerMultiArg(new String[]{"curso","usuario_curso"},new String[]{"curso","curso_id"},new String[]{"usuario_curso"},new String[]{"usuario_id"},new String[]{userID});
                 //CachedRowSet cursosCRSPermi = subidor.innerJoiner(new String[]{"permisos","usuario_curso"},new String[]{"permiso","permiso_id"},"usuario_id",userID);
-                String[][] arrayParams = subidor.CRStoStringArrs(cursosCRSName,new String[]{"curso_id","curso"});
-                cursos = arrayParams[0];
-                cursosNombre = arrayParams[1];
+                //String[][] arrayParams = subidor.CRStoStringArrs(cursosCRSName,new String[]{"curso_id","curso"});
+                //cursos = arrayParams[0];
+                //cursosNombre = arrayParams[1];
                 //permiCursos = permisosSesion.toPermisoArray(subidor.CRStoStringArray(cursosCRS,"permiso"));
-                sesion.setAttribute("cursos_id",cursos);
-                System.out.println(Arrays.toString(cursos));
-                sesion.setAttribute("cursos_name",cursosNombre);
-                System.out.println(Arrays.toString(cursosNombre));
+                //sesion.setAttribute("cursos_id",Checador.stringAHtml(cursos));
+                //System.out.println(Arrays.toString(cursos));
+                //sesion.setAttribute("cursos_name",Checador.stringAHtml(cursosNombre));
+                //System.out.println(Arrays.toString(cursosNombre));
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
             sesion.setAttribute("permisos_usuario",permisosSesion);
         }
-        response.sendRedirect("/BristudioAnt/");
+        response.sendRedirect("/");
         processRequest(request, response);
     }
 

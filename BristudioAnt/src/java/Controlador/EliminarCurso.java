@@ -6,8 +6,12 @@
 package Controlador;
 
 import FiltradoDatos.Permisos;
+import FiltradoDatos.SubidorSQL;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,11 +21,15 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
+ * @author Santi
  */
-@WebServlet(name = "eliminaCurso", urlPatterns = {"/eliminaCurso"})
-public class eliminaCurso extends HttpServlet {
+@WebServlet(name = "EliminarCurso", urlPatterns = {"/EliminarCurso"})
+public class EliminarCurso extends HttpServlet {
+    public SubidorSQL subidor;
 
+    public EliminarCurso() {
+        this.subidor = new SubidorSQL();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,10 +47,10 @@ public class eliminaCurso extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet eliminaCurso</title>");            
+            out.println("<title>Servlet EliminarCurso</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet eliminaCurso at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EliminarCurso at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,16 +83,29 @@ public class eliminaCurso extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
-        Permisos perm = (Permisos)sesion.getAttribute("permisos_usuario");
-        String[] cursosID = (String[])sesion.getAttribute("cursos_id");
-        String[] cursosName = (String[])sesion.getAttribute("cursos_name");
-        if(perm.exists(Permisos.permiso.CREACURSOS)){
-            for(int i = 0; i<cursosID.length; i++){
-                
+        Object idCurso = request.getParameter("curso_id");
+        Object numUsuario = sesion.getAttribute("num_usuario");
+        if(!(numUsuario == null || idCurso == null)){
+            try {
+                if(subidor.permisosCurso(Permisos.permiso.ADMINISTRADORCURSO,numUsuario.toString(),idCurso.toString()) || subidor.permisosCurso(Permisos.permiso.CREACONTENIDO,numUsuario.toString(),idCurso.toString())){
+                    subidor.eliminarBusca(idCurso.toString(),"curso_id","curso");
+                    response.sendRedirect("/");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EliminarCurso.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("/HTML/error.html");
             }
         }
+        else{
+            response.sendRedirect("/HTML/error.html");
+        }
     }
-    
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

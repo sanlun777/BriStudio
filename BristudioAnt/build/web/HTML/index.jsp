@@ -4,6 +4,9 @@
     author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
 --%>
 
+<%@page import="FiltradoDatos.Checador"%>
+<%@page import="FiltradoDatos.SubidorSQL"%>
+<%@page import="javax.sql.rowset.CachedRowSet"%>
 <%@page import="FiltradoDatos.Permisos"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/BristudioAnt/CSS/estilosIndex.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/CSS/estilosIndex.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -30,11 +33,10 @@
 
             <nav>
                 <%
+                    SubidorSQL subidor = new SubidorSQL();
                     HttpSession sesion = request.getSession();
+                    Object userID = sesion.getAttribute("num_usuario");
                     Object idUsuario = sesion.getAttribute("id_usuario");
-                    String[] cursosID = (String[])sesion.getAttribute("cursos_id");
-                    String[] cursosName = (String[])sesion.getAttribute("cursos_name");
-                    
                     Permisos permisosUsuario = null;
                     boolean checar = false;
                     if(idUsuario == null){
@@ -68,6 +70,11 @@
                             out.println("<a href='HTML/creaCurso.jsp'>Crear nuevo curso</a>");
                             out.println("</br>");
                         }
+                        CachedRowSet cursosCRSName = subidor.innerJoinerMultiArg(new String[]{"curso","usuario_curso"},new String[]{"curso","curso_id"},new String[]{"usuario_curso"},new String[]{"usuario_id"},new String[]{userID.toString()});
+                        String[][] arrayParams = subidor.CRStoStringArrs(cursosCRSName,new String[]{"curso_id","curso"});
+                        String[] cursosID = arrayParams[0];
+                        String[] cursosName = Checador.stringAHtml(arrayParams[1]);
+                        subidor.cerrarConexion();
                         if(cursosID == null){
                             out.println("<br>");
                             out.println("<a href='HTML/creaCurso.jsp'>No hay cursos a los que se pertenezca que mostrar</a>");
@@ -76,7 +83,7 @@
                         else{
                             for(int i = 0; i<cursosID.length; i++){
                                 out.println("<br>");
-                                out.println("<form action = 'HTML/curso.jsp'>");
+                                out.println("<form action = 'HTML/curso.jsp' method = 'post'>");
                                 out.println("<input type=hidden id='curso_id' name='curso_id' value='"+cursosID[i]+"'>");
                                 out.println("<input type=submit class='boton' value='"+cursosName[i]+"'>");
                                 out.println("</form>");

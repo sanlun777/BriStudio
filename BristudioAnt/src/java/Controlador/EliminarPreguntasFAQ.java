@@ -22,7 +22,11 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "EliminarPreguntasFAQ", urlPatterns = {"/EliminarPreguntasFAQ"})
 public class EliminarPreguntasFAQ extends HttpServlet {
-SubidorSQL subidor = new SubidorSQL();
+SubidorSQL subidor;
+
+    public EliminarPreguntasFAQ() {
+        this.subidor = new SubidorSQL();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -74,16 +78,17 @@ SubidorSQL subidor = new SubidorSQL();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession sesion = request.getSession();
         Permisos permisos = (Permisos)sesion.getAttribute("permisos_usuario");
         String usuarioID = sesion.getAttribute("num_usuario").toString();
         Object pregID = request.getParameter("preg_id");
         if((permisos.exists(Permisos.permiso.AUDITORIA) || permisos.exists(Permisos.permiso.FAQ)) && (pregID != null)){
             subidor.eliminarMultiParams(new String[]{pregID.toString()},new String[]{"preg_id"},"faqPregunta");
-            response.sendRedirect("/BristudioAnt/HTML/faqalum.jsp");
+            response.sendRedirect("/HTML/faqalum.jsp");
         }
         else{
-            response.sendRedirect("/BristudioAnt/HTML/error.html");
+            response.sendRedirect("/HTML/error.html");
         }
     }
 

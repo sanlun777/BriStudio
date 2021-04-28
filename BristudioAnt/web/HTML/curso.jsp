@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/BristudioAnt/CSS/estilosIndex.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/CSS/estilosIndex.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -81,7 +81,7 @@
                             
                             if(permisosAdmin){
                                     out.println("<br>");
-                                    out.println("<form action = '/BristudioAnt/HTML/eliminaCurso'>");
+                                    out.println("<form action = '/EliminarCurso' method = 'post'>");
                                     out.println("<input type=hidden id='curso_id' name='curso_id' value='"+idCursos.toString()+"'>");
                                     out.println("<input type=submit class='boton' value='Eliminar "+cursoName.toString()+"'>");
                                     out.println("</form>");

@@ -29,7 +29,7 @@
             </div>
 
             <div class="logo">
-                <a href="/BristudioAnt/">Bristudio</a>
+                <a href="/">Bristudio</a>
             </div>
 
         </header>
@@ -40,7 +40,7 @@
             
                 <section class="formulario-login">
 
-                    <form action = "/BristudioAnt/Login" method = "post">
+                    <form action = "/Login" method = "post">
                         <input class="campos" type="text" name="usuario_nick" id="usuario_nick" placeholder="Nickname" required>
                         <input class="campos" type="password" name="contrasena" id="contrasena" placeholder="Contrasena" required pattern="[A-Za-z0-9!?-]{8,20}" title="Una contraseña segura consta de mínimo 8 caracteres y de máximo 20."> 
 

@@ -26,8 +26,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author Santi
  */
-@WebServlet(name = "CreaContenido", urlPatterns = {"/CreaContenido"})
-public class CreaContenido extends HttpServlet {
+@WebServlet(name = "CreadorContenido", urlPatterns = {"/CreadorContenido"})
+public class CreadorContenido extends HttpServlet {
+    public SubidorSQL subidor;
+
+    public CreadorContenido() {
+        this.subidor = new SubidorSQL();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +51,10 @@ public class CreaContenido extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CreaContenido</title>");            
+            out.println("<title>Servlet CreadorContenido</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CreaContenido at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreadorContenido at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -81,20 +86,20 @@ public class CreaContenido extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession sesion = request.getSession();
         Object usuarioID = sesion.getAttribute("num_usuario");
         Object cursoID = request.getParameter("curso_id");
-        if(usuarioID != null && cursoID != null){
-            SubidorSQL subidor = new SubidorSQL();
+        if (usuarioID != null && cursoID != null) {
             try {
                 System.out.println("Checado de permisos");
-                if(subidor.permisosCurso(Permisos.permiso.ADMINISTRADORCURSO,usuarioID.toString(),cursoID.toString()) || subidor.permisosCurso(Permisos.permiso.CREACONTENIDO,usuarioID.toString(),cursoID.toString())){
+                if (subidor.permisosCurso(Permisos.permiso.ADMINISTRADORCURSO, usuarioID.toString(), cursoID.toString()) || subidor.permisosCurso(Permisos.permiso.CREACONTENIDO, usuarioID.toString(), cursoID.toString())) {
                     System.out.println("Si tiene permisos");
-                    String[] params = {"curso_id","maestro_id","titulo_contenido","texto_descripcion","tiempo_creacion","tiempo_limite"};
+                    String[] params = {"curso_id", "maestro_id", "titulo_contenido", "texto_descripcion", "tiempo_creacion", "tiempo_limite"};
                     Object[] recupera = new Object[params.length];
-                    int[][] tamanos = {{0,100},{0,0},{0,30},{0,5000},{0,-1},{0,20}};
-                    Checador.datosTipo[] checa = {Checador.datosTipo.NUMERO, Checador.datosTipo.IGNORE, Checador.datosTipo.LETRA, Checador.datosTipo.LETRA,Checador.datosTipo.IGNORE,Checador.datosTipo.FECHA};
-                    for(int i = 0; i<recupera.length; i++){
+                    int[][] tamanos = {{0, 100}, {0, 0}, {0, 30}, {0, 5000}, {0, -1}, {0, 20}};
+                    Checador.datosTipo[] checa = {Checador.datosTipo.NUMERO, Checador.datosTipo.IGNORE, Checador.datosTipo.LETRA, Checador.datosTipo.LETRA, Checador.datosTipo.IGNORE, Checador.datosTipo.FECHA};
+                    for (int i = 0; i < recupera.length; i++) {
                         recupera[i] = request.getParameter(params[i]);
                     }
                     LocalDateTime now = LocalDateTime.now();
@@ -106,70 +111,67 @@ public class CreaContenido extends HttpServlet {
                     System.out.println(Arrays.toString(tamanos));
                     System.out.println(Arrays.toString(checa));
                     System.out.println("Previo a subir contenido");
-                    if(subidor.seguroSQLValidado(recupera, params, checa, tamanos,"contenido")){
+                    if (subidor.seguroSQLValidado(recupera, params, checa, tamanos, "contenido")) {
                         System.out.println("Si se subio contenido");
                         int actividadInt = subidor.lastInsertID();
                         boolean continua = true;
                         int i = 0;
-                        while(continua){
+                        while (continua) {
                             Object prega = request.getParameter("prega" + i);
-                            if(prega == null){
+                            if (prega == null) {
                                 Object pregc = request.getParameter("pregc" + i);
-                                if(pregc == null){
+                                if (pregc == null) {
                                     continua = false;
-                                }
-                                else{
-                                    String[] paramsPregc = {"contenido_id","tipo_pregunta_id","texto_pregunta"};
-                                    Object[] recuperaPregc = {Integer.toString(actividadInt),"0",pregc};
-                                    int[][] tamanosPregc = {{0,-1},{0,1},{0,200}};
+                                } else {
+                                    String[] paramsPregc = {"contenido_id", "tipo_pregunta_id", "texto_pregunta"};
+                                    Object[] recuperaPregc = {Integer.toString(actividadInt), "0", pregc};
+                                    int[][] tamanosPregc = {{0, -1}, {0, 1}, {0, 200}};
                                     Checador.datosTipo[] checaPregc = {Checador.datosTipo.IGNORE, Checador.datosTipo.IGNORE, Checador.datosTipo.LETRA};
-                                    Object correcta = request.getParameter("radg"+i);
-                                    if(subidor.seguroSQLValidado(recuperaPregc, paramsPregc, checaPregc, tamanosPregc,"pregunta")){
+                                    Object correcta = request.getParameter("radg" + i);
+                                    if (subidor.seguroSQLValidado(recuperaPregc, paramsPregc, checaPregc, tamanosPregc, "pregunta")) {
                                         int preguntaInt = subidor.lastInsertID();
                                         boolean continuaInci = true;
                                         int j = 0;
                                         boolean correctaEncontrada = false;
-                                        while(continuaInci){
-                                            String inciReq = "pregc"+i+"_"+j;
+                                        while (continuaInci) {
+                                            String inciReq = "pregc" + i + "_" + j;
                                             Object inci = request.getParameter(inciReq);
-                                            if(inci != null && correcta != null){
+                                            if (inci != null && correcta != null) {
                                                 int correctaInt = 0;
-                                                if(inciReq.equals(correcta.toString()) && !correctaEncontrada){
+                                                if (inciReq.equals(correcta.toString()) && !correctaEncontrada) {
                                                     correctaInt = 1;
                                                     correctaEncontrada = true;
                                                 }
-                                                String[] paramsInci = {"pregunta_id","inciso","correcta"};
-                                                Object[] recuperaInci = {preguntaInt,inci,Integer.toString(correctaInt)};
-                                                int[][] tamanosInci = {{0,-1},{0,100},{0,-1}};
-                                                Checador.datosTipo[] checaInci = {Checador.datosTipo.IGNORE,Checador.datosTipo.LETRA,Checador.datosTipo.IGNORE};
-                                                subidor.seguroSQLValidado(recuperaInci, paramsInci, checaInci, tamanosInci,"inciso");
-                                            }
-                                            else{
+                                                String[] paramsInci = {"pregunta_id", "inciso", "correcta"};
+                                                Object[] recuperaInci = {preguntaInt, inci, Integer.toString(correctaInt)};
+                                                int[][] tamanosInci = {{0, -1}, {0, 100}, {0, -1}};
+                                                Checador.datosTipo[] checaInci = {Checador.datosTipo.IGNORE, Checador.datosTipo.LETRA, Checador.datosTipo.IGNORE};
+                                                subidor.seguroSQLValidado(recuperaInci, paramsInci, checaInci, tamanosInci, "inciso");
+                                            } else {
                                                 continuaInci = false;
                                             }
                                             j++;
                                         }
                                     }
                                 }
-                            }
-                            else{
-                                String[] paramsPrega = {"contenido_id","tipo_pregunta_id","texto_pregunta"};
-                                Object[] recuperaPrega = {Integer.toString(actividadInt),"1",prega};
-                                int[][] tamanosPrega = {{0,-1},{0,1},{0,200}};
+                            } else {
+                                String[] paramsPrega = {"contenido_id", "tipo_pregunta_id", "texto_pregunta"};
+                                Object[] recuperaPrega = {Integer.toString(actividadInt), "1", prega};
+                                int[][] tamanosPrega = {{0, -1}, {0, 1}, {0, 200}};
                                 Checador.datosTipo[] checaPrega = {Checador.datosTipo.IGNORE, Checador.datosTipo.IGNORE, Checador.datosTipo.LETRA};
-                                if(subidor.seguroSQLValidado(recuperaPrega, paramsPrega, checaPrega, tamanosPrega,"pregunta")){
+                                if (subidor.seguroSQLValidado(recuperaPrega, paramsPrega, checaPrega, tamanosPrega, "pregunta")) {
                                     //Subida con exito
                                 }
                             }
                             i++;
                         }
                     }
-                    
+
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(CreaContenido.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CreadorContenido.class.getName()).log(Level.SEVERE, null, ex);
             }
-                
+
         }
     }
 

@@ -10,7 +10,7 @@ package FiltradoDatos;
  * @author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
  */
 public class AntiInjection {
-    public boolean isSafe(String revisar){
+    /*public boolean isSafe(String revisar){
         boolean injection = false;
         char[] forbidChars = {'*','=','"'};
         String[] forbidStrings = {"select","inner","join","delete","update"};
@@ -82,5 +82,5 @@ public class AntiInjection {
             }
         }
         return isSafe;
-    }
+    }*/
 }

@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/BristudioAnt/CSS/estilosRegister.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/CSS/estilosRegister.css" rel="stylesheet" type="text/css" media="all">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
             </div>
 
             <div class="logo">
-                <a href="/BristudioAnt/">Bristudio</a>
+                <a href="/">Bristudio</a>
             </div>
 
         </header>
@@ -51,7 +51,7 @@
                             int i = 1;
                             while(preguntas.next()){
                                     out.println("<section class='formulario-registro'>");
-                                        out.println("<form action = '/BristudioAnt/EditarPreguntaFAQ' method = 'post'>");
+                                        out.println("<form action = '/EditarPreguntaFAQ' method = 'post'>");
                                             out.println("<input class='campos' type='text' name='pregunta' id='pregunta' placeholder='"+i+": "+preguntas.getString("pregunta")+"' minlength='2' maxlength='255' title='Editar pregunta'>");
                                             out.println("<h3>Pregunta hecha por: "+sql.busqSeparate("usuario_id", "usuario_nick", "usuarios", preguntas.getString("id_usuario_pregunta"))+"</h3>");
                                             out.println("<input class='campos' type='text' name='respuesta' id='respuesta' placeholder='"+i+": "+preguntas.getString("respuesta")+"' minlength='2' maxlength='255' title='Editar respuesta'>");
@@ -59,7 +59,7 @@
                                             out.println("<input type='hidden' name='preg_id' id='preg_id' value='" + preguntas.getString("preg_id") + "'>");
                                             out.println("<input type=submit class='boton' value='Editar'>");
                                         out.println("</form>");
-                                        out.println("<form action = '/BristudioAnt/EliminarPreguntasFAQ' method = 'post'>");
+                                        out.println("<form action = '/EliminarPreguntasFAQ' method = 'post'>");
                                             out.println("<input type='hidden' name='preg_id' id='preg_id' value='" + preguntas.getString("preg_id") + "'>");
                                             out.println("<input type=submit class='boton' value='Eliminar pregunta'>");
                                         out.println("</form>");
@@ -71,7 +71,7 @@
                             }
                             out.println("<h3>Crear preguntas FAQ</h3>");
                             out.println("<section class='formulario-registro'>");
-                            out.println("<form action = '/BristudioAnt/CrearPreguntaFAQ' method = 'post'>");
+                            out.println("<form action = '/CrearPreguntaFAQ' method = 'post'>");
                                 out.println("<input class='campos' type='text' name='pregunta' id='pregunta' placeholder='Inserte pregunta' minlength='2' maxlength='255' required title='Pregunta'>");
                                 out.println("<input class='campos' type='text' name='respuesta' id='respuesta' placeholder='Inserte Respuesta' minlength='2' maxlength='255' required title='Respuesta'>");
                                 out.println("<input type=submit class='boton' value='Crear nueva pregunta'>");

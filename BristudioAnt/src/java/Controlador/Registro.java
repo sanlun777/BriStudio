@@ -28,7 +28,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Registro", urlPatterns = {"/Registro"})
 @MultipartConfig
 public class Registro extends HttpServlet {
-    SubidorSQL subidor = new SubidorSQL();
+    SubidorSQL subidor;
+
+    public Registro() {
+        this.subidor = new SubidorSQL();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -82,6 +86,7 @@ public class Registro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            request.setCharacterEncoding("UTF-8");
             Permisos permisos = (Permisos)request.getSession().getAttribute("permisos_usuario");
             if(permisos.exists(Permisos.permiso.CREAUSUARIO)){
                 String[] params = {"usuario_id", "usuario_nick", "sexo", "edad", "correo", "nombre", "apellido_p", "apellido_m", "contrasena"};
@@ -111,15 +116,15 @@ public class Registro extends HttpServlet {
                             }
                         }
                     }
-                    response.sendRedirect("/BristudioAnt/");
+                    response.sendRedirect("/");
                 }
                 else{
-                    response.sendRedirect("/BristudioAnt/HTML/error.html");
+                    response.sendRedirect("/HTML/error.html");
                 }
             }
             else{
                 PrintWriter out = response.getWriter();
-                response.sendRedirect("/BristudioAnt/HTML/error.html");
+                response.sendRedirect("/HTML/error.html");
             }
         
     }
