@@ -81,7 +81,7 @@ pregunta_id int not null primary key auto_increment,
 contenido_id int,
 tipo_pregunta_id boolean,
 texto_pregunta nvarchar(200),
-foreign key (contenido_id) references contenido(contenido_id)
+foreign key (contenido_id) references contenido(contenido_id) on delete cascade
 );
 
 create table inciso(
@@ -89,7 +89,7 @@ inciso_id int not null primary key auto_increment,
 pregunta_id int,
 inciso nvarchar(100),
 correcta boolean,
-foreign key (pregunta_id) references pregunta(pregunta_id)
+foreign key (pregunta_id) references pregunta(pregunta_id) on delete cascade
 );
 
 create table estado_actividad(
@@ -119,7 +119,7 @@ create table pregunta_respondida(
 pregunta_id int not null primary key,
 realizada_id int,
 respuesta nvarchar(100),
-foreign key (pregunta_id) references pregunta(pregunta_id),
+foreign key (pregunta_id) references pregunta(pregunta_id) on delete cascade,
 foreign key (realizada_id) references actividad_realizada(realizada_id)
 );
 
@@ -140,7 +140,7 @@ respuesta nvarchar(511),
 id_usuario_pregunta decimal(10) not null,
 id_usuario_respuesta decimal(10),
 foreign key(id_usuario_pregunta) references usuarios(usuario_id),
-foreign key(id_usuario_pregunta) references usuarios(usuario_id));
+foreign key(id_usuario_respuesta) references usuarios(usuario_id));
 
 insert into permisos values (1, 'crea_usuario');
 insert into permisos values (2, 'auditoria');
