@@ -4,6 +4,8 @@
     author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
 --%>
 
+<%@page import="FiltradoDatos.Checador"%>
+<%@page import="javax.sql.rowset.CachedRowSet"%>
 <%@page import="FiltradoDatos.SubidorSQL"%>
 <%@page import="FiltradoDatos.Permisos"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -34,13 +36,10 @@
                     HttpSession sesion = request.getSession();
                     Object idUsuario = sesion.getAttribute("id_usuario");
                     Object numUsuario = sesion.getAttribute("num_usuario");
-                    String[] cursosID = (String[])sesion.getAttribute("cursos_id");
-                    String[] cursosName = (String[])sesion.getAttribute("cursos_name");
                     
                     Permisos permisosUsuario = null;
                     boolean checar = false;
                     if(idUsuario == null){
-                        out.println("<a href='HTML/login.jsp'>Iniciar sesión</a>");
                     }
                     else{
                         out.println("<a href='#' class='hueco' font-color:#a4031f></a>");
@@ -71,6 +70,7 @@
                         out.println("<h1>" + cursoName + "</h1>");
                         boolean permisosAdmin = sube.permisosCurso(Permisos.permiso.ADMINISTRADORCURSO,numUsuario.toString(),idCursos.toString());
                         boolean permisosContenido = sube.permisosCurso(Permisos.permiso.CREACONTENIDO,numUsuario.toString(),idCursos.toString());
+                        boolean perteneceCurso = sube.existe(new String[]{idCursos.toString(),numUsuario.toString()},"usuario_curso", new String[]{"curso_id","usuario_id"});
                             if(permisosAdmin || permisosContenido){
                                 out.println("<br>");
                                     out.println("<form action = 'creaContenido.jsp'>");
@@ -78,6 +78,26 @@
                                     out.println("<input type=submit class='boton' value='Crear contenido de "+cursoName.toString()+"'>");
                                     out.println("</form>");
                             }
+                            if(perteneceCurso || permisosAdmin){
+                                System.out.println("Si pertenece al cursonnnnn--------------------------------");
+                                CachedRowSet actividades = sube.busqSeparateCachedRowSet(new String[]{"curso_id"},new String[]{idCursos.toString()},new String[]{"titulo_contenido","contenido_id","tiempo_limite"},"contenido");
+                                while(actividades.next()){
+                                    out.println();
+                                    System.out.println("CICLO ACTIVIDADES------------------------------------------------");
+                                    out.println("<form action = 'iniciaActividad.jsp' method = 'post'>");
+                                    out.println("<input type=hidden id='contenido_id' name='contenido_id' value='"+actividades.getString("contenido_id")+"'>");
+                                    out.println("<input type=submit class='boton' value='"+Checador.stringAHtml(actividades.getString("titulo_contenido"))+"'>");
+                                    out.println("<p>Fecha límite: "+Checador.stringAHtml(actividades.getString("tiempo_limite"))+"</p>");
+                                    out.println("</form>");
+                                    if(permisosAdmin || permisosContenido){
+                                        out.println("<form action = 'eliminaActividad.jsp' method='post'>");
+                                        out.println("<input type=hidden id='cciaActividadontenido_id' name='contenido_id' value='"+actividades.getString("contenido_id")+"'>");
+                                        out.println("<input type=submit class='boton' value='Eliminar "+Checador.stringAHtml(actividades.getString("titulo_contenido"))+"'>");
+                                        out.println("</form>");
+                                    }
+                                }
+                            }
+                            
                             
                             if(permisosAdmin){
                                     out.println("<br>");

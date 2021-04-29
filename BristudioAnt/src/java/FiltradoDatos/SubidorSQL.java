@@ -161,6 +161,23 @@ public class SubidorSQL {
         existir.close();
         return exis;
     }
+    
+    public boolean existe(String[] buscar, String tabla, String column[]) throws SQLException {
+        boolean exis;
+        String query = "select*from " + tabla + " where " + column[0] + " = ?";
+        for(int i = 1; i < buscar.length; i++){
+            query = query + " and " + column[i] + " = ?";
+        }
+        PreparedStatement pst = con.prepareStatement(query);
+        for(int i = 0; i < buscar.length; i++){
+            pst.setString(i+1,buscar[i]);
+        }
+        ResultSet existir = pst.executeQuery();
+        exis = existir.next();
+        existir.close();
+        pst.close();
+        return exis;
+    }
 
     public String[] columnSet(String column, String table) throws SQLException {
         String[] columnSet;
@@ -217,7 +234,7 @@ public class SubidorSQL {
             query.append(" and ").append(columnBusca[i]).append(" = ?");
         }
 
-        try (PreparedStatement pst = con.prepareStatement(query.toString())) {
+        PreparedStatement pst = con.prepareStatement(query.toString());
             for (int i = 0; i < columnBusca.length; i++) {
                 pst.setString(i + 1, busca[i]);
             }
@@ -226,8 +243,33 @@ public class SubidorSQL {
                 CRS.populate(sql);
                 resultados = CRStoStringArray(CRS, columnSeleccion);
             }
-        }
         return resultados;
+    }
+    
+    public CachedRowSet busqSeparateCachedRowSet(String[] columnBusca, String[] busca, String[] columnSeleccion, String tabla) throws SQLException {
+        String[] resultados;
+        String resultado;
+        StringBuilder query = new StringBuilder();
+        query.append("select ");
+        for(int i = 0; i < columnSeleccion.length-1; i++){
+            query.append(columnSeleccion[i]).append(", ");
+        }
+        query.append(columnSeleccion[columnSeleccion.length-1]);
+        query.append(" from ").append(tabla).append(" where ").append(columnBusca[0]).append(" = ?");
+        for (int i = 1; i < columnBusca.length; i++) {
+            query.append(" and ").append(columnBusca[i]).append(" = ?");
+        }
+
+        try (PreparedStatement pst = con.prepareStatement(query.toString())) {
+            for (int i = 0; i < columnBusca.length; i++) {
+                pst.setString(i + 1, busca[i]);
+            }
+            try (ResultSet sql = pst.executeQuery()) {
+                CachedRowSet CRS = RowSetProvider.newFactory().createCachedRowSet();
+                CRS.populate(sql);
+                return CRS;
+            }
+        }
     }
 
     public int size(String columnIndex, String tabla) throws SQLException {

@@ -38,7 +38,7 @@ public class Permisos {
         }
         System.out.println(Arrays.toString(permisos));
     }
-    public permiso toPermiso(String permi){
+    public static permiso toPermiso(String permi){
         permiso permisoEnum = null;
         switch(permi){
             case("crea_usuario"):
@@ -71,7 +71,7 @@ public class Permisos {
         return permisoEnum;
     }
     
-    public permiso toPermiso(int permi){
+    public static permiso toPermiso(int permi){
         SubidorSQL buscaPermi = new SubidorSQL();
         permiso permis = null;
         try {
@@ -83,11 +83,11 @@ public class Permisos {
         return permis;
     }
     
-    public Boolean isNumeric(String number){
+    public static Boolean isNumeric(String number){
         return number.matches("-?\\d+(\\.\\d+)?");
     }
     
-    public String toString(permiso permi){
+    public static String toString(permiso permi){
         permiso permiEnum = permi;
         String permisoStr = null;
         switch(permiEnum){

@@ -112,7 +112,7 @@ public class CreadorContenido extends HttpServlet {
                     System.out.println(Arrays.toString(checa));
                     System.out.println("Previo a subir contenido");
                     if (subidor.seguroSQLValidado(recupera, params, checa, tamanos, "contenido")) {
-                        System.out.println("Si se subio contenido");
+                        System.out.println("Si se subio contenido---------------------------------------------------ñ-ñ-ñ");
                         int actividadInt = subidor.lastInsertID();
                         boolean continua = true;
                         int i = 0;
@@ -161,6 +161,9 @@ public class CreadorContenido extends HttpServlet {
                                 Checador.datosTipo[] checaPrega = {Checador.datosTipo.IGNORE, Checador.datosTipo.IGNORE, Checador.datosTipo.LETRA};
                                 if (subidor.seguroSQLValidado(recuperaPrega, paramsPrega, checaPrega, tamanosPrega, "pregunta")) {
                                     //Subida con exito
+                                }
+                                else{
+                                    response.sendRedirect("/HTML/error.html");
                                 }
                             }
                             i++;
