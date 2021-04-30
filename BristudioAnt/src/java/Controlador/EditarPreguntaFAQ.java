@@ -149,6 +149,7 @@ public class EditarPreguntaFAQ extends HttpServlet {
                     }
                     else{
                         response.sendRedirect("/HTML/error.html");
+                        System.out.println();
                     }
                 }
                 else{

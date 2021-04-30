@@ -118,6 +118,7 @@ public class SubidorSQL {
         if (new Checador().checa(tipos, tamanos, datos)) {
             System.out.println("pasa chequeo");
             try {
+                System.out.println("Si llega a etapa de subida");
                 updateSQL(datos, pos, tabla, searchField);
             } catch (ClassNotFoundException | SQLException ex) {
                 sucess = false;
@@ -559,7 +560,11 @@ public class SubidorSQL {
         pst.setString(j, datoString[fieldSearch]);
 
         System.out.println(query);
-        st.executeUpdate(query);
+        try{
+        pst.executeUpdate();
+        } catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     public int lastInsertID() {
