@@ -12,7 +12,9 @@ correo nvarchar(254),
 nombre nvarchar(30),
 apellido_p nvarchar(15),
 apellido_m nvarchar(15),
-contrasena nvarchar(30),
+contrasena nvarchar(60),
+hashpass nvarchar(60),
+confirmado_email boolean default false,
 unique (usuario_nick)
 );
 
@@ -133,6 +135,11 @@ foreign key(id_usuario_remitente) references usuarios(usuario_id),
 foreign key(id_usuario_destinatario) references usuarios(usuario_id)
 );
 
+create table correosSMTP(
+correo_id int not null primary key auto_increment,
+correo nvarchar(255),
+contrasena nvarchar(255));
+
 create table faqPregunta(
 preg_id int not null primary key auto_increment,
 pregunta nvarchar(255),
@@ -142,13 +149,24 @@ id_usuario_respuesta decimal(10),
 foreign key(id_usuario_pregunta) references usuarios(usuario_id),
 foreign key(id_usuario_respuesta) references usuarios(usuario_id));
 
+create table reporte(
+rep_id int not null primary key auto_increment,
+titulo nvarchar(255),
+reporte nvarchar(511),
+id_usuario_titulo decimal(10) not null,
+id_usuario_reporte decimal(10),
+foreign key(id_usuario_titulo) references usuarios(usuario_id),
+foreign key(id_usuario_reporte) references usuarios(usuario_id));
+
 insert into permisos values (1, 'crea_usuario');
 insert into permisos values (2, 'auditoria');
 insert into permisos values (3, 'crea_cursos');
 insert into permisos values (4, 'permite_crea_usuario');
 insert into permisos values (5, 'crea_contenido');
 insert into permisos values (6, 'administrador_curso');
-insert into usuarios values(1000000000,"administrador",1,15,'administrador@bristudio.com','Administrador','de','Bristudio','briadmin');
+insert into permisos values (7, 'administrador_faq');
+insert into permisos values (8, 'reporte');
+insert into usuarios values(1000000000,"administrador",1,15,'administrador@bristudio.com','Administrador','de','Bristudio','$2a$10$TLvBLFQx0s7Js5mYJjw9CunQkKk0chvV.Ap3jQNHhSYxyucLDDzU.',null,1);
 insert into permiso_usuario(permisos_id,usuario_id) values(1,1000000000);
 insert into permiso_usuario(permisos_id,usuario_id) values(2,1000000000);
 insert into permiso_usuario(permisos_id,usuario_id) values(3,1000000000);
@@ -162,7 +180,9 @@ select * from usuario_curso where 1000000000 = 'usuario_id';
 select*from permiso_usuario;
 select*from contenido;
 select*from pregunta;
-select*from inciso;
+select*from faqPregunta;
+insert into correosSMTP(correo, contrasena) values("molesofts@gmail.com","Molesuck");
+update usuarios set confirmado_email = "1" where hashpass = "null";
 
 select last_insert_id();
 

@@ -4,6 +4,7 @@
     author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
 --%>
 
+<%@page import="FiltradoDatos.Checador"%>
 <%@page import="javax.sql.rowset.CachedRowSet"%>
 <%@page import="FiltradoDatos.Permisos"%>
 <%@page import="FiltradoDatos.SubidorSQL"%>
@@ -52,10 +53,10 @@
                             while(preguntas.next()){
                                     out.println("<section class='formulario-registro'>");
                                         out.println("<form action = '/EditarPreguntaFAQ' method = 'post'>");
-                                            out.println("<input class='campos' type='text' name='pregunta' id='pregunta' placeholder='"+i+": "+preguntas.getString("pregunta")+"' minlength='2' maxlength='255' title='Editar pregunta'>");
-                                            out.println("<h3>Pregunta hecha por: "+sql.busqSeparate("usuario_id", "usuario_nick", "usuarios", preguntas.getString("id_usuario_pregunta"))+"</h3>");
-                                            out.println("<input class='campos' type='text' name='respuesta' id='respuesta' placeholder='"+i+": "+preguntas.getString("respuesta")+"' minlength='2' maxlength='255' title='Editar respuesta'>");
-                                            out.println("<h3>Pregunta respondida por: "+sql.busqSeparate("usuario_id", "usuario_nick", "usuarios", preguntas.getString("id_usuario_respuesta"))+"</h3>");
+                                            out.println("<input class='campos' type='text' name='pregunta' id='pregunta' placeholder='"+i+": "+Checador.stringAHtml(preguntas.getString("pregunta"))+"' minlength='2' maxlength='255' title='Editar pregunta'>");
+                                            out.println("<h3>Pregunta hecha por: "+Checador.stringAHtml(sql.busqSeparate("usuario_id", "usuario_nick", "usuarios", preguntas.getString("id_usuario_pregunta")))+"</h3>");
+                                            out.println("<input class='campos' type='text' name='respuesta' id='respuesta' placeholder='"+i+": "+Checador.stringAHtml(preguntas.getString("respuesta"))+"' minlength='2' maxlength='255' title='Editar respuesta'>");
+                                            out.println("<h3>Pregunta respondida por: "+Checador.stringAHtml(sql.busqSeparate("usuario_id", "usuario_nick", "usuarios", preguntas.getString("id_usuario_respuesta")))+"</h3>");
                                             out.println("<input type='hidden' name='preg_id' id='preg_id' value='" + preguntas.getString("preg_id") + "'>");
                                             out.println("<input type=submit class='boton' value='Editar'>");
                                         out.println("</form>");
@@ -82,17 +83,19 @@
                             SubidorSQL sql = new SubidorSQL();
                             CachedRowSet preguntas = sql.getTable("faqPregunta");
                             int i = 1;
-                            out.println("<section class='formulario-registro'>");
                             while(preguntas.next()){
-                                    out.println("<h3>"+i+":"+preguntas.getString("pregunta")+"</h3>");
-                                    out.println("<h3>R: "+preguntas.getString("respuesta")+"</h3>");
+                                out.println("<section class='formulario-registro'>");
+                                    out.println("<h3>"+i+":"+Checador.stringAHtml(preguntas.getString("pregunta"))+"</h3>");
+                                    out.println("<h3>R: "+Checador.stringAHtml(preguntas.getString("respuesta"))+"</h3>");
                                     out.println("<br>");
+                                    out.println("</section>");
                                 i++;
                             }
                             if(i == 1){
+                                out.println("<section class='formulario-registro'>");
                                 out.println("No existen preguntas a mostrar");
+                                out.println("</section>");
                             }
-                            out.println("</section>");
                         }
                     }
                 %>

@@ -86,6 +86,7 @@ public class CrearPreguntaFAQ extends HttpServlet {
         HttpSession sesion = request.getSession();
         Permisos permisos = (Permisos)sesion.getAttribute("permisos_usuario");
         String usuarioID = sesion.getAttribute("num_usuario").toString();
+        
             
         if(permisos.exists(Permisos.permiso.AUDITORIA) || permisos.exists(Permisos.permiso.FAQ)){
                 
