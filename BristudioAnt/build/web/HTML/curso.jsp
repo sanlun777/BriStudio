@@ -57,9 +57,9 @@
         <aside class="sidebar">
             <p>Bristudio es una plataforma que busca unificar las funciones de las plataformas normalmente utilizadas en una sola. La siguiente demostración incluye funcionalidades de login, creación de usuarios, y creación de cursos</p>
         </aside>
+        <main class="contenido">
             <%
                     if(checar){
-                        out.println("<main class='contenido'>");
                         SubidorSQL sube = new SubidorSQL();
                         Object idCursos = request.getParameter("curso_id");
                         if(idCursos == null){
@@ -78,13 +78,10 @@
                                     out.println("<input type=submit class='boton' value='Crear contenido de "+cursoName.toString()+"'>");
                                     out.println("</form>");
                             }
-                            out.println("</main>");
                             if(perteneceCurso || permisosAdmin){
                                 System.out.println("Si pertenece al cursonnnnn--------------------------------");
                                 CachedRowSet actividades = sube.busqSeparateCachedRowSet(new String[]{"curso_id"},new String[]{idCursos.toString()},new String[]{"titulo_contenido","contenido_id","tiempo_limite"},"contenido");
                                 while(actividades.next()){
-                                    out.println("<main class='contenido'>");
-                                    out.println("<section class='formulario-registro'>");
                                     out.println();
                                     System.out.println("CICLO ACTIVIDADES------------------------------------------------");
                                     out.println("<form action = 'iniciaActividad.jsp' method = 'post'>");
@@ -98,7 +95,6 @@
                                         out.println("<input type=submit class='boton' value='Eliminar "+Checador.stringAHtml(actividades.getString("titulo_contenido"))+"'>");
                                         out.println("</form>");
                                     }
-                                    out.println("</main>");
                                 }
                             }
                             
@@ -113,9 +109,7 @@
                         }
                     }
                     else{
-                        out.println("<main class='contenido'>");
                         out.println("<p>Inicie sesión para revisar este curso</p>");
-                        out.println("</main>");
                     }
                     
                 %>

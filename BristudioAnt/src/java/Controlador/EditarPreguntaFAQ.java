@@ -139,26 +139,17 @@ public class EditarPreguntaFAQ extends HttpServlet {
                     }
                     else cambio = false;
                 }
-                System.out.println(cambio);
+                
                 if(cambio){
                     System.out.println(Arrays.toString(recupera));
                     System.out.println(Arrays.toString(tamanos));
                     System.out.println(Arrays.toString(tipoDatos));
-                    if(actualizar[0] && actualizar [1]){
-                        if(subidor.seguroUpdateSQLValidado(recupera,params,tipoDatos,tamanos,"faqPregunta",2)){
-                            response.sendRedirect("/HTML/faqalum.jsp");
-                        }
-                        else{
-                            response.sendRedirect("/HTML/error.html");
-                        }
+                    if(subidor.seguroUpdateSQLValidado(recupera,params,tipoDatos,tamanos,"faqPregunta",1)){
+                        response.sendRedirect("/HTML/faqalum.jsp");
                     }
                     else{
-                        if(subidor.seguroUpdateSQLValidado(recupera,params,tipoDatos,tamanos,"faqPregunta",1)){
-                            response.sendRedirect("/HTML/faqalum.jsp");
-                        }
-                        else{
-                            response.sendRedirect("/HTML/error.html");
-                        }
+                        response.sendRedirect("/HTML/error.html");
+                        System.out.println();
                     }
                 }
                 else{

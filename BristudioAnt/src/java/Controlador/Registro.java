@@ -20,7 +20,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -30,7 +29,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @MultipartConfig
 public class Registro extends HttpServlet {
     SubidorSQL subidor;
-    BCryptPasswordEncoder passEnc = new BCryptPasswordEncoder(10);
 
     public Registro() {
         this.subidor = new SubidorSQL();
@@ -99,7 +97,6 @@ public class Registro extends HttpServlet {
                     Object param = request.getParameter(params[i]);
                     recupera[i] = param;
                 }
-                recupera[8] = passEnc.encode(recupera[8].toString());
                 System.out.println(Arrays.toString(recupera));
                 System.out.println(Arrays.toString(tamanos));
                 System.out.println(Arrays.toString(tipoDatos));

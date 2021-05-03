@@ -3,7 +3,7 @@
     Created on : Dec 15, 2020, 8:38:34 AM
     author Axotla Ibañez Bruno Patricio , Ortega Mendoza Jorge Uriel , Quiroz Simon Alexia , Romero Mendez Francisco , Vásquez Luna Santiago Daniel
 --%>
-<%@page import="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"%>
+
 <%@page import="FiltradoDatos.Checador"%>
 <%@page import="FiltradoDatos.SubidorSQL"%>
 <%@page import="javax.sql.rowset.CachedRowSet"%>
@@ -33,7 +33,6 @@
 
             <nav>
                 <%
-                    System.out.println(new BCryptPasswordEncoder(10).encode("briadmin"));
                     SubidorSQL subidor = new SubidorSQL();
                     HttpSession sesion = request.getSession();
                     Object userID = sesion.getAttribute("num_usuario");

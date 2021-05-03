@@ -4,9 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/HTML/iniciaActividad.jsp</file>
-            <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/HTML/faqalum.jsp</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/HTML/creaContenido.jsp</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/FiltradoDatos/AntiInjection.java</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/HTML/index.jsp</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/Controlador/CreadorContenido.java</file>
             <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/HTML/curso.jsp</file>
-            <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/CSS/estilosIndex.css</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/Controlador/EliminarCurso.java</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/FiltradoDatos/SubidorSQL.java</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/web/HTML/faqalum.jsp</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/Controlador/EditarPreguntaFAQ.java</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/Controlador/CreadorCurso.java</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/FiltradoDatos/Permisos.java</file>
+            <file>file:/C:/SchDev/BriStudio/BristudioAnt/src/java/FiltradoDatos/Checador.java</file>
         </group>
     </open-files>
 </project-private>

@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -30,7 +29,6 @@ public class SubidorSQL {
     String user;
     String pass;
     private Connection con;
-    BCryptPasswordEncoder pwdEncoder;
     private Statement st;
     private PreparedStatement lastIns;
     ObjectIO configuracion;
@@ -42,7 +40,6 @@ public class SubidorSQL {
      * @throws ClassNotFoundException
      */
     public SubidorSQL() {
-        this.pwdEncoder = new BCryptPasswordEncoder(10);
         try {
             this.configuracion = new ObjectIO();
             this.forbiddenTables = new String[]{"permisos"};
@@ -142,15 +139,11 @@ public class SubidorSQL {
         PreparedStatement pst;
         ResultSet sesion;
         try {
-            pst = con.prepareStatement("select contrasena from " + table + " where " + columnuser + " = ?");
+            pst = con.prepareStatement("select*from " + table + " where " + columnuser + " = ? AND " + columnpass + " = ?");
             pst.setString(1, user.toString());
             pst.setString(2, pass.toString());
             sesion = pst.executeQuery();
-            if(sesion.next()){
-                if(pwdEncoder.matches(sesion.getString("contrasena"), pass.toString())){
-                    inicio = true;
-                }
-            }
+            inicio = sesion.next();
             sesion.close();
             pst.close();
         } catch (SQLException ex) {
@@ -546,7 +539,6 @@ public class SubidorSQL {
         String query = "update " + tabla + " set ";
         for (int i = 0; i < length; i++) {
             datoString[i] = datos[i].toString();
-            System.out.println(datoString[i]);
         }
         for (int i = 0; i < length - 1; i++) {
             if (i != fieldSearch) {

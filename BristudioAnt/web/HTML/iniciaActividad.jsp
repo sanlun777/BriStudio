@@ -58,8 +58,8 @@
         <aside class="sidebar">
             <p>Bristudio es una plataforma que busca unificar las funciones de las plataformas normalmente utilizadas en una sola. La siguiente demostración incluye funcionalidades de login, creación de usuarios, y creación de cursos</p>
         </aside>
+        <main class="contenido">
             <%
-                    out.println("<main class='contenido'>");
                     if(checar){
                         SubidorSQL sube = new SubidorSQL();
                         Object idConten = request.getParameter("contenido_id");
@@ -73,7 +73,6 @@
                         //boolean permisosContenido = sube.permisosCurso(Permisos.permiso.CREACONTENIDO,numUsuario.toString(),idCursos.toString());
                         //boolean perteneceCurso = sube.existe(new String[]{idConten.toString(),numUsuario.toString()},"usuario_curso", new String[]{"curso_id","usuario_id"});
                         String cursoCuest = sube.busqSeparate("contenido_id","curso_id","contenido",idConten.toString());
-                        out.println("</main>");
                         if(cursoCuest == null){
                             response.sendRedirect("/");
                         }else{
@@ -92,9 +91,7 @@
                                 out.println("<form action = 'respondePreguntas.jsp' method = 'post'>");
                                 out.println("<input type=hidden id='contenido_id' name='contenido_id' value='"+idConten+"'>");
                                 while(preguntas.next()){
-                                    out.println("<main class='contenido'>");
                                     System.out.println("CICLO Preguntas------------------------------------------------");
-                                    out.println("<section class='formulario-registro'>");
                                     out.println("<p>"+i+": "+Checador.stringAHtml(preguntas.getString("texto_pregunta"))+"</p>");
                                     System.out.println(preguntas.getString("tipo_pregunta_id"));
                                     if(preguntas.getString("tipo_pregunta_id") == "true"){
@@ -108,7 +105,6 @@
                                             out.println("<label for='"+incisos.getString("inciso_id")+"'>"+incisos.getString("inciso")+"</label>");
                                         }
                                         incisos.close();
-                                        out.println("</section>");
                                     }
                                     //out.println("<input type=hidden id='pregunta_id' name='pregunta_id' value='"+preguntas.getString("pregunta_id")+"'>");
                                     //out.println("<input type=submit class='boton' value='"+Checador.stringAHtml(preguntas.getString("titulo_contenido"))+"'>");
@@ -120,7 +116,6 @@
                                         out.println("</form>");
                                     }*/
                                     i++;
-                                    out.println("</main>");
                                 }
                                 out.println("<input type=submit class='boton' value='Enviar cuestionario'>");
                                 preguntas.close();
